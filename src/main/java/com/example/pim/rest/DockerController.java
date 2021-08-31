@@ -2,10 +2,7 @@ package com.example.pim.rest;
 
 import com.example.pim.service.DockerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -20,8 +17,9 @@ public class DockerController {
         this.dockerService = dockerService;
     }
 
+    @CrossOrigin()
     @RequestMapping(value = "/{dockerChoice}", method = RequestMethod.GET)
-    public ResponseEntity<Boolean> initDocker(@PathVariable String dockerChoice){
+    public ResponseEntity<Boolean> initDocker(@PathVariable String dockerChoice) throws Exception {
         return Optional
                 .ofNullable(dockerService.initDocker(dockerChoice))
                 .map(list -> ResponseEntity.ok().body(list))          //200 OK
