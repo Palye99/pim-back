@@ -175,10 +175,10 @@ public class DockerService {
             Process process = null;
             if (isWindows) {
                 process = Runtime.getRuntime()
-                        .exec(String.format("cmd.exe /c docker exec %s %s", id, command));
+                        .exec(String.format("cmd.exe /c docker exec -it %s %s", id, command));
             } else {
                 process = Runtime.getRuntime()
-                        .exec(String.format("sh -c docker exec %s %s", id, command));
+                        .exec(String.format("sh -c docker exec -it %s %s", id, command));
             }
 
             BufferedReader stdInput = new BufferedReader(new
