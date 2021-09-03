@@ -36,10 +36,10 @@ public class DockerController {
     }
 
     @CrossOrigin()
-    @RequestMapping(value = "/dockerCommand/{id}", method = RequestMethod.POST)
-    public ResponseEntity<ResultCommand> dockerCommand(@PathVariable String id, @RequestBody String command) throws Exception {
+    @RequestMapping(value = "/dockerCommand/{choixTerm}/{id}", method = RequestMethod.POST)
+    public ResponseEntity<ResultCommand> dockerCommand(@PathVariable int choixTerm, @PathVariable String id, @RequestBody String command) throws Exception {
         return Optional
-                .ofNullable(dockerService.dockerCommand(id, command))
+                .ofNullable(dockerService.dockerCommand(choixTerm, id, command))
                 .map(list -> ResponseEntity.ok().body(list))          //200 OK
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

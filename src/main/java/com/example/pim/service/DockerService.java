@@ -34,7 +34,7 @@ public class DockerService {
                 switch(choice) {
                     case 1 :
                         process = Runtime.getRuntime()
-                                .exec("cmd.exe docker run -dit javapim");
+                                .exec("docker run -dit javapim");
                         break;
                     case 2 :
                         process = Runtime.getRuntime()
@@ -42,11 +42,11 @@ public class DockerService {
                         break;
                     case 3 :
                         process = Runtime.getRuntime()
-                                .exec("cmd.exe docker run -dit bashpim");
+                                .exec("docker run -dit bashpim");
                         break;
                     case 4 :
                         process = Runtime.getRuntime()
-                                .exec("cmd.exe docker run -dit pythonpim");
+                                .exec("docker run -dit pythonpim");
                         break;
                 }
             } else {
@@ -164,7 +164,7 @@ public class DockerService {
         throw new Exception("Erreur lors de l'execution du docker");
     }
 
-    public ResultCommand dockerCommand(String id, String command) throws Exception {
+    public ResultCommand dockerCommand(int choixTerm, String id, String command) throws Exception {
         try {
             logger.info("command docker from shell");
 
@@ -174,8 +174,20 @@ public class DockerService {
             String homeDirectory = System.getProperty("user.home");
             Process process = null;
             if (isWindows) {
-                process = Runtime.getRuntime()
-                        .exec(String.format("cmd.exe /c docker exec -it %s %s", id, command));
+                switch(choixTerm) {
+                    case 1:
+                        process = Runtime.getRuntime()
+                                .exec(String.format("docker exec -it %s jshell %s", id, command));
+                        break;
+                    case 3:
+                        process = Runtime.getRuntime()
+                                .exec(String.format("cmd.exe ./docker/bash/docker exec -it %s sh %s", id, command));
+                        break;
+                    case 4:
+                        process = Runtime.getRuntime()
+                                .exec(String.format("cmd.exe ./docker/python/docker exec -it %s python %s", id, command));
+                        break;
+                }
             } else {
                 process = Runtime.getRuntime()
                         .exec(String.format("sh -c docker exec -it %s %s", id, command));
